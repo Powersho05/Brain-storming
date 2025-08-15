@@ -1,8 +1,8 @@
-const caixaPrincipal = document. querySelector (".caixaPrincipal");
-const caixaPerguntas = document. querySelector (".caixaPerguntas");
-const caixaAlternativas = document. querySelector (".caixaAlternativas");
-const caixaResultado = document. querySelector (".caixaResultado");
-const textoResultado = document. querySelector (".textoResultado");
+const caixaPrincipal = document.querySelector(".caixa-principal");
+const caixaPerguntas = document.querySelector(".caixa-perguntas");
+const caixaAlternativas = document.querySelector(".caixa-alternativas");
+const caixaResultado = document.querySelector(".caixa-resultado");
+const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
@@ -27,6 +27,7 @@ const perguntas = [
                 texto: "O ataque a Pearl Harbor", 
                 afirmação:"afirmação"
             }, 
+
             {
                 texto: "A invasão da Polônia pela Alemanha", 
                 afirmação:"afirmação"
@@ -40,6 +41,7 @@ const perguntas = [
                 texto:"Conquistar território americano", 
                 afirmação:"afirmação"
             }, 
+
             {
                 texto:"Neutralizar a frota naval dos EUA no Pacífico", 
                 afirmação:"afirmação"
@@ -53,6 +55,7 @@ const perguntas = [
                 texto:"Batalha de Stalingrado", 
                 afirmação:"afirmação"
             }, 
+
             {
                 texto:"Batalha de Dunquerque", 
                 afirmação:"afirmação"
@@ -62,22 +65,43 @@ const perguntas = [
     {
         enunciado: "O que foi o Dia D?", 
         Alternativas: [
-           "A rendição da Alemanha", 
-           "O desembarque dos Aliados na Normandia"
+            { 
+                texto:"A rendição da Alemanha",
+                afirmação:"afirmação"
+            },
+
+            {
+                texto:"O desembarque dos Aliados na Normandia",
+                afirmação:"afirmação"
+            },
        ]
     },
     {
         enunciado: "Qual país, inicialmente aliado da Alemanha, mudou de lado durante a guerra?", 
         Alternativas: [
-           "Itália", 
-           "Japão"
+             {
+              texto:"Itália",
+              afirmação:"afirmação"
+             },
+
+             {
+              texto:"Japão",
+              afirmação:"afirmação"
+             },
        ]
     },
     {
         enunciado: "Qual cidade foi a primeira a ser atingida por uma bomba atômica?", 
         Alternativas: [
-           "Nagasaki", 
-           "Hiroshima"
+             {
+              texto:"Nagasaki",
+              afirmação:"afirmação"
+             }, 
+
+             {
+              texto:"Hiroshima",
+              afirmação:"afirmação"
+             }, 
        ]
     },
     {
@@ -104,22 +128,40 @@ const perguntas = [
 ];
 
 let atual = 0;
-let pergutnaAtual;
+let perguntaAtual;
+let historiaFinal = "";
 
-function mostraPergunta(){
+function mostraPergunta() {
+    if (atual >= perguntas.length) {
+        mostraResultado();
+        return;
+    }
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = "";
     mostraAlternativas();
 }
-function mostraAlternativas() {
+
+function mostraAlternativas(){
     for(const alternativa of perguntaAtual.alternativas) {
-        const botaoAlternativa = document.creaeElement("button");
-        botaoAlternativa.textContent = alternativa.texto;
-        botaoAlternativa.addEventListener("click", function(){
-            atual++;
-            mostraPergunta();
-        } )
-        caixaAlternativas.appendChild(botaoAlternativa);
+        const botaoAlternativas = document.createElement("button");
+        botaoAlternativas.textContent = alternativa.texto;
+        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botaoAlternativas);
     }
 }
+
+function respostaSelecionada(opcaoSelecionada) {
+    const afirmacoes = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacoes + " ";
+    atual++;
+    mostraPergunta();
+}
+
+function mostraResultado() {
+    caixaPerguntas.textContent = "Em 1945...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.textContent = "";
+}
+
 mostraPergunta();
