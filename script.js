@@ -49,8 +49,14 @@ const perguntas = [
     {
         enunciado: "Qual foi a batalha decisiva na Frente Oriental, onde os soviéticos conseguiram uma grande vitória sobre a Alemanha?", 
         Alternativas: [
-           "Batalha de Stalingrado", 
-           "Batalha de Dunquerque"
+            {
+                texto:"Batalha de Stalingrado", 
+                afirmação:"afirmação"
+            }, 
+            {
+                texto:"Batalha de Dunquerque", 
+                afirmação:"afirmação"
+            }, 
        ]
     },
     {
@@ -103,6 +109,17 @@ let pergutnaAtual;
 function mostraPergunta(){
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    mostraAlternativas();
 }
-
+function mostraAlternativas() {
+    for(const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativa = document.creaeElement("button");
+        botaoAlternativa.textContent = alternativa.texto;
+        botaoAlternativa.addEventListener("click", function(){
+            atual++;
+            mostraPergunta();
+        } )
+        caixaAlternativas.appendChild(botaoAlternativa);
+    }
+}
 mostraPergunta();
